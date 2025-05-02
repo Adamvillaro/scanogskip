@@ -9,9 +9,9 @@ export default function Home() {
         <meta name="description" content="Scan & Skip - Bestilling uden kø til caféer, barer og restauranter" />
       </Head>
 
-      {/* 👇 Logo i øverste venstre hjørne */}
+      {/* ✅ Logo i øverste venstre hjørne */}
       <img
-        src="/Scan&SkipLogo.png"
+        src="/ScanogSkipLogo.png"
         alt="Scan & Skip logo"
         className="absolute top-6 left-6 w-16 h-auto"
       />
