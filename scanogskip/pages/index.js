@@ -3,11 +3,18 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-yellow-50 flex flex-col items-center px-4 py-12 text-yellow-900">
+    <div className="min-h-screen bg-yellow-50 flex flex-col items-center px-4 py-12 text-yellow-900 relative">
       <Head>
         <title>Scan & Skip</title>
         <meta name="description" content="Scan & Skip - Bestilling uden kø til caféer, barer og restauranter" />
       </Head>
+
+      {/* 👇 Logo i øverste venstre hjørne */}
+      <img
+        src="/Scan&SkipLogo.png"
+        alt="Scan & Skip logo"
+        className="absolute top-6 left-6 w-16 h-auto"
+      />
 
       <header className="w-full max-w-4xl text-center mb-12">
         <h1 className="text-5xl font-bold mb-4">Scan & Skip</h1>
@@ -47,3 +54,4 @@ export default function Home() {
     </div>
   );
 }
+
