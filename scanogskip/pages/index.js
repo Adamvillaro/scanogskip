@@ -10,11 +10,11 @@ export default function Home() {
       </Head>
 
       {/* ✅ Logo i øverste venstre hjørne */}
-      <img
-        src="/ScanogSkipLogo2.png"
-        alt="Scan & Skip logo"
-        className="absolute top-6 left-6 w-16 h-auto"
-      />
+     <img
+  src="/ScanogSkipLogo2.png"
+  alt="Scan & Skip logo"
+  className="w-40 h-auto mb-6"
+/>
 
       <header className="w-full max-w-4xl text-center mb-12">
         <h1 className="text-5xl font-bold mb-4">Scan & Skip</h1>
