@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-yellow-50 flex flex-col items-center px-4 py-12 text-yellow-900 relative">
       <Head>
-        <title>Scan & Skip</title>
+        <title>ScanogSkip</title>
         <meta name="description" content="Scan & Skip - Bestilling uden kø til caféer, barer og restauranter" />
       </Head>
 
