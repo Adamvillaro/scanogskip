@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { db } from "../lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 // Starter fra 0 – første ordre bliver 1
 let lastOrderNumber = 0;
@@ -9,10 +11,24 @@ export default function Menu() {
   const { butik } = router.query;
   const [orderNumber, setOrderNumber] = useState(null);
 
-  const handleOrder = () => {
+  const handleOrder = async () => {
     lastOrderNumber += 1;
     setOrderNumber(lastOrderNumber);
+  
+    // Gem ordre i Firebase
+    try {
+      await addDoc(collection(db, "orders"), {
+        butik: butik || "Ukendt",
+        produkt: "Burger Menu",
+        tidspunkt: new Date(),
+        nummer: lastOrderNumber
+      });
+      console.log("Ordre gemt!");
+    } catch (error) {
+      console.error("Fejl ved ordre:", error);
+    }
   };
+  
 
   if (orderNumber) {
     return (
