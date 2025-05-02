@@ -11,7 +11,7 @@ export default function Home() {
 
       {/* ✅ Logo i øverste venstre hjørne */}
       <img
-        src="/ScanogSkipLogo.png"
+        src="/ScanogSkipLogo2.png"
         alt="Scan & Skip logo"
         className="absolute top-6 left-6 w-16 h-auto"
       />
