@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { db } from "../lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
+
 
 // Starter fra 0 – første ordre bliver 1
 let lastOrderNumber = 0;
