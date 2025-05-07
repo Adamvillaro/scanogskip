@@ -1,60 +1,34 @@
+// pages/ockabasi.js
 import { motion } from "framer-motion";
 
 export default function OckabasiMenu() {
   return (
-    <div className="min-h-screen bg-white text-gray-900 flex flex-col items-center px-6 py-10">
-      <motion.img
-        src="/ScanogSkipLogo2.png"
-        alt="Ockabasi Logo"
-        className="h-16 mb-8"
-        initial={{ opacity: 0, y: -20 }}
+    <main className="min-h-screen bg-yellow-50 flex flex-col items-center justify-center px-6 py-10 text-yellow-900">
+      <motion.h1
+        className="text-5xl md:text-6xl font-extrabold text-center mb-6"
+        initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      />
-
-      <h1 className="text-5xl font-extrabold text-yellow-600 mb-10 tracking-tight text-center">
+        transition={{ duration: 0.6 }}
+      >
         Velkommen til Ockabasi
-      </h1>
+      </motion.h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl w-full">
-        <MenuItem
-          title="🍔 Kebab Burger"
-          description="Saftig kebab i briochebolle med salat & hjemmelavet dressing"
-          price="89 kr"
-        />
-        <MenuItem
-          title="🥙 Durum Rulle"
-          description="Frisklavet durum med valgfrit fyld, perfekt rullet og grillet"
-          price="79 kr"
-        />
-        <MenuItem
-          title="🍟 Pommes Frites"
-          description="Sprøde kartoffelfritter med flagesalt og dip"
-          price="35 kr"
-        />
-      </div>
-
-      <footer className="mt-20 text-sm text-gray-400">
-        © 2025 Ockabasi x ScanogSkip
-      </footer>
-    </div>
-  );
-}
-
-function MenuItem({ title, description, price }) {
-  return (
-    <motion.div
-      className="bg-gray-100 rounded-3xl shadow-xl p-6 flex flex-col items-center text-center hover:scale-105 transition-transform"
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <h2 className="text-2xl font-bold mb-3 text-gray-800">{title}</h2>
-      <p className="text-gray-600 text-base mb-4">{description}</p>
-      <p className="text-yellow-600 text-xl font-semibold mb-6">{price}</p>
-      <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-8 rounded-full text-lg transition">
-        Bestil nu
-      </button>
-    </motion.div>
+      <motion.div
+        className="bg-white rounded-2xl shadow-lg p-6 max-w-md w-full text-center"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      >
+        <h2 className="text-2xl font-semibold mb-2">🔥 Kebab Menu</h2>
+        <p className="mb-4 text-gray-700">Frisklavet kebab med ris og salat</p>
+        <p className="text-yellow-700 font-bold text-lg mb-6">Pris: 89 kr</p>
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          className="bg-yellow-600 text-white text-lg px-6 py-3 rounded-xl hover:bg-yellow-700 transition w-full"
+        >
+          Bestil nu
+        </motion.button>
+      </motion.div>
+    </main>
   );
 }
