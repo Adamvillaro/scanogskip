@@ -40,5 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-node_modules
-node_modules
+git add .gitignore
+git commit -m "Ryddet op i .gitignore"
+git push

@@ -14,21 +14,23 @@ export default function Menu() {
   const handleOrder = async () => {
     lastOrderNumber += 1;
     setOrderNumber(lastOrderNumber);
-  
-    // Gem ordre i Firebase
+
+    const data = {
+      butik: butik || "Ukendt",
+      produkt: "Burger Menu",
+      tidspunkt: new Date(),
+      nummer: lastOrderNumber,
+    };
+
+    console.log("Forsøger at sende ordre til Firebase:", data);
+
     try {
-      await addDoc(collection(db, "orders"), {
-        butik: butik || "Ukendt",
-        produkt: "Burger Menu",
-        tidspunkt: new Date(),
-        nummer: lastOrderNumber
-      });
-      console.log("Ordre gemt!");
+      await addDoc(collection(db, "orders"), data);
+      console.log("Ordre gemt i Firebase!");
     } catch (error) {
-      console.error("Fejl ved ordre:", error);
+      console.error("Fejl ved at gemme ordre:", error.message);
     }
   };
-  
 
   if (orderNumber) {
     return (
