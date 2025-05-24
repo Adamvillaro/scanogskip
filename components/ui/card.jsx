@@ -1,9 +1,12 @@
-// components/ui/card.jsx
 export function Card({ children, className }) {
-    return <div className={`bg-white rounded-xl p-4 shadow ${className}`}>{children}</div>;
+    return (
+      <div className={`bg-white rounded-xl shadow-md p-4 ${className || ""}`}>
+        {children}
+      </div>
+    );
   }
   
-  export function CardContent({ children, className }) {
-    return <div className={className}>{children}</div>;
+  export function CardContent({ children }) {
+    return <div className="p-4">{children}</div>;
   }
   

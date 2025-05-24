@@ -1,8 +1,8 @@
 // pages/ockabasi.js
-import { useState } from "react";
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { ShoppingCart } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Ockabasi() {
   const [cart, setCart] = useState([]);

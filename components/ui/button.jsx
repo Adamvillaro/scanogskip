@@ -1,9 +1,8 @@
-// components/ui/button.jsx
-export function Button({ children, className = "", ...props }) {
+export function Button({ children, onClick, className }) {
     return (
       <button
-        className={`bg-black text-white px-4 py-2 rounded-xl hover:bg-gray-800 transition ${className}`}
-        {...props}
+        onClick={onClick}
+        className={`bg-yellow-600 text-white font-semibold py-2 px-4 rounded-xl hover:bg-yellow-700 transition ${className || ""}`}
       >
         {children}
       </button>
