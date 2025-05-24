@@ -1,68 +1,78 @@
-// pages/index.js
+import Image from "next/image";
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f6f1ea] text-gray-900 font-sans">
-      {/* Hero / Vision */}
-      <section className="text-center px-6 py-20 max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold mb-6">Vores vision</h1>
-        <p className="text-lg leading-relaxed">
-          Vi tror på en fremtid, hvor bestillinger sker med et enkelt klik – helt uden stress og kø. Vores mål er at forvandle hele købsoplevelsen til noget enkelt, elegant og effektivt. Det handler om at give gæster og kunder mere tid til det, der betyder noget.
-        </p>
+    <div className="bg-[#f5f3ec] text-gray-900 min-h-screen">
+      {/* Vision Section */}
+      <section className="max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight font-serif">
+            Fremtidens Bestillinger
+          </h1>
+          <p className="text-lg leading-relaxed">
+            Vi ønsker at revolutionere måden vi bestiller mad og drikke på, ved at
+            gøre hele processen hurtigere, mere intuitiv og helt uden unødige køer. 
+            Med Scan og Skip kan dine kunder scanne og bestille med det samme – og springe
+            ventetiden over.
+          </p>
+        </div>
+        <div>
+          <Image src="/ScanogSkipLogo2.png" alt="ScanogSkip Logo" width={600} height={400} className="rounded-xl" />
+        </div>
       </section>
 
-      {/* Om os */}
-      <section className="bg-white text-center px-6 py-16 border-y border-gray-300">
-        <h2 className="text-3xl font-bold mb-6">Hvem vi er</h2>
-        <p className="max-w-3xl mx-auto text-lg leading-relaxed">
-          Med over 10 års samlet erfaring i restaurationsbranchen, kundeservice og salg, har vi lært hvad der virkelig betyder noget: god service, effektivitet og teknologi der virker. Den erfaring bringer vi nu til bordet med <strong>Scan og Skip</strong>.
-        </p>
-      </section>
-
-      {/* Hiring */}
-      <section className="bg-green-500 text-white text-center py-16 px-4">
-        <h2 className="text-3xl font-bold mb-2 uppercase tracking-wide">We’re Hiring</h2>
-        <p className="max-w-xl mx-auto text-lg">
-          Vi bygger fremtidens bestillingsløsning og leder efter skarpe hoveder, der vil være med. Er det dig? Lad os snakke!
-        </p>
-        <a
-          href="mailto:adam@scanogskip.dk"
-          className="mt-6 inline-block font-semibold underline text-white hover:text-gray-100"
-        >
-          Søg nu
-        </a>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-[#f6f1ea] text-center border-t border-gray-300 py-12 px-4">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 text-left">
+      {/* About Us Section */}
+      <section className="bg-[#eae7dc] py-24">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h3 className="text-xl font-bold">Adam Villaro Krüger</h3>
-            <p className="mt-1">
-              <strong>MAIL:</strong>{" "}
-              <a href="mailto:adam@scanogskip.dk" className="underline">
-                adam@scanogskip.dk
-              </a>
-              <br />
-              <strong>MOBILE:</strong> 53 80 40 05
-            </p>
+            <Image src="/ScanogSkipLogo.png" alt="Team" width={500} height={400} className="rounded-xl" />
           </div>
           <div>
-            <h3 className="text-xl font-bold">Hannibal Krieger</h3>
-            <p className="mt-1">
-              <strong>MAIL:</strong>{" "}
-              <a href="mailto:hannibal@scanogskip.dk" className="underline">
-                hannibal@scanogskip.dk
-              </a>
-              <br />
-              <strong>MOBILE:</strong> 42 65 11 71
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-serif">Om os</h2>
+            <p className="text-lg leading-relaxed">
+              Vi er Adam Villaro Krüger og Hannibal Krieger – to iværksættere med en fælles vision
+              om at gøre hverdagen lettere for både restauranter og deres gæster.
+              Med over 10 års samlet erfaring inden for restauration, kundeservice og salg,
+              forstår vi branchens behov og udfordringer. Vores mål er at digitalisere og optimere
+              bestillingsoplevelsen.
             </p>
           </div>
         </div>
+      </section>
 
-        <p className="text-sm text-gray-500 mt-12">
-          © {new Date().getFullYear()} Scan og Skip. Alle rettigheder forbeholdes.
-        </p>
+      {/* We're Hiring Section */}
+      <section className="bg-green-500 text-white text-center py-20">
+        <div className="max-w-3xl mx-auto px-6">
+          <h3 className="text-3xl md:text-4xl font-extrabold mb-4">WE’RE HIRING</h3>
+          <p className="text-lg mb-6">
+            Vi bygger fremtidens restaurationsoplevelse – og leder efter passionerede folk til at være med.
+            Har du lyst til at være med på rejsen? Så ræk ud til os.
+          </p>
+          <a
+            href="mailto:adam@scanogskip.dk"
+            className="inline-block bg-white text-green-600 font-bold py-3 px-6 rounded-full hover:bg-gray-100 transition"
+          >
+            Ansøg nu
+          </a>
+        </div>
+      </section>
+
+      {/* Footer Section */}
+      <footer className="bg-[#f5f3ec] text-gray-800 py-12">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">
+          <div>
+            <h4 className="font-bold text-lg mb-2">Adam Villaro Krüger</h4>
+            <p>📞 53 80 40 05</p>
+            <p>✉️ <a href="mailto:Adam@scanogskip.dk" className="underline">Adam@scanogskip.dk</a></p>
+          </div>
+          <div>
+            <h4 className="font-bold text-lg mb-2">Hannibal Krieger</h4>
+            <p>📞 42 65 11 71</p>
+            <p>✉️ <a href="mailto:Hannibal@scanogskip.dk" className="underline">Hannibal@scanogskip.dk</a></p>
+          </div>
+        </div>
+        <div className="text-center text-sm mt-12">© {new Date().getFullYear()} Scan og Skip. Alle rettigheder forbeholdes.</div>
       </footer>
-    </main>
+    </div>
   );
 }
