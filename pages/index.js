@@ -6,7 +6,7 @@ export default function Home() {
       {/* Top Navigation Bar */}
       <nav className="w-full bg-[#f7f5f0] py-4 px-6 fixed top-0 left-0 z-50 shadow-sm flex justify-between items-center">
         <a href="mailto:kontakt@scanogskip.dk" className="text-lg font-semibold underline">Kontakt</a>
-        <Image src="/ScanogSkipLogo.png" alt="Logo" width={60} height={20} />
+        <Image src="/ScanogSkipLogo.png" alt="Logo" width={45} height={15} />
       </nav>
 
       <div className="pt-24">
