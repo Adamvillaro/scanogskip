@@ -2,17 +2,16 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="bg-[#eae7dc] text-gray-900 min-h-screen">
+    <div className="bg-[#f7f5f0] text-gray-900 min-h-screen">
       {/* Top Navigation Bar */}
-      <nav className="w-full bg-[#eae7dc] py-4 px-6 fixed top-0 left-0 z-50 shadow-sm">
-        <div className="max-w-6xl mx-auto">
-          <a href="mailto:kontakt@scanogskip.dk" className="text-lg font-semibold underline">Kontakt</a>
-        </div>
+      <nav className="w-full bg-[#f7f5f0] py-4 px-6 fixed top-0 left-0 z-50 shadow-sm flex justify-between items-center">
+        <a href="mailto:kontakt@scanogskip.dk" className="text-lg font-semibold underline">Kontakt</a>
+        <Image src="/ScanogSkipLogo.png" alt="Logo" width={120} height={40} />
       </nav>
 
-      <div className="pt-20"> {/* Push content down to avoid overlap with nav */}
+      <div className="pt-24">
         {/* Vision Section */}
-        <section className="bg-[#eae7dc] max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-6 items-center">
+        <section className="bg-[#f7f5f0] max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-6 items-center">
           <div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight font-serif">
               Fremtidens Bestillinger
@@ -30,14 +29,14 @@ export default function Home() {
         </section>
 
         {/* About Us Section */}
-        <section className="bg-[#eae7dc] py-24">
-          <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+        <section className="bg-[#f7f5f0] py-24">
+          <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
             <div>
               <Image src="/ScanogSkipLogo.png" alt="Team" width={500} height={400} className="rounded-xl" />
             </div>
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4 font-serif">Om os</h2>
-              <p className="text-lg leading-relaxed">
+              <p className="text-base leading-relaxed">
                 Vi er Adam Villaro Krüger og Hannibal Krieger – to iværksættere med en fælles vision
                 om at gøre hverdagen lettere for både restauranter og deres gæster.
                 Med over 10 års samlet erfaring inden for restauration, kundeservice og salg,
@@ -66,7 +65,7 @@ export default function Home() {
         </section>
 
         {/* Footer Section */}
-        <footer className="bg-[#eae7dc] text-gray-800 py-12">
+        <footer className="bg-[#f7f5f0] text-gray-800 py-12">
           <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">
             <div>
               <h4 className="font-bold text-lg mb-2">Adam Villaro Krüger</h4>
