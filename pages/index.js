@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="bg-[#f5f3ec] text-gray-900 min-h-screen">
       {/* Vision Section */}
-      <section className="max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
+      <section className="bg-[#eae7dc] max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
         <div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight font-serif">
             Fremtidens Bestillinger
@@ -16,9 +16,7 @@ export default function Home() {
             ventetiden over.
           </p>
         </div>
-        <div>
-          <Image src="/ScanogSkipLogo2.png" alt="ScanogSkip Logo" width={600} height={400} className="rounded-xl" />
-        </div>
+      
       </section>
 
       {/* About Us Section */}
@@ -45,7 +43,7 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-6">
           <h3 className="text-3xl md:text-4xl font-extrabold mb-4">WE’RE HIRING</h3>
           <p className="text-lg mb-6">
-            Vi bygger fremtidens restaurationsoplevelse – og leder efter passionerede folk til at være med.
+            Vi bygger fremtidens bestillingsoplevelsen – og leder efter passionerede folk til at være med.
             Har du lyst til at være med på rejsen? Så ræk ud til os.
           </p>
           <a
@@ -62,13 +60,13 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">
           <div>
             <h4 className="font-bold text-lg mb-2">Adam Villaro Krüger</h4>
-            <p>📞 53 80 40 05</p>
-            <p>✉️ <a href="mailto:Adam@scanogskip.dk" className="underline">Adam@scanogskip.dk</a></p>
+            <p> 53 80 40 05</p>
+            <p> <a href="mailto:Adam@scanogskip.dk" className="underline">Adam@scanogskip.dk</a></p>
           </div>
           <div>
             <h4 className="font-bold text-lg mb-2">Hannibal Krieger</h4>
-            <p>📞 42 65 11 71</p>
-            <p>✉️ <a href="mailto:Hannibal@scanogskip.dk" className="underline">Hannibal@scanogskip.dk</a></p>
+            <p> 42 65 11 71</p>
+            <p> <a href="mailto:Hannibal@scanogskip.dk" className="underline">Hannibal@scanogskip.dk</a></p>
           </div>
         </div>
         <div className="text-center text-sm mt-12">© {new Date().getFullYear()} Scan og Skip. Alle rettigheder forbeholdes.</div>
