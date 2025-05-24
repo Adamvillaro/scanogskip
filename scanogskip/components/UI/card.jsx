@@ -1,9 +1,15 @@
-// components/ui/card.jsx
-export function Card({ children, className = "" }) {
-    return (
-      <div className={`rounded-xl border bg-white p-6 shadow-md ${className}`}>
-        {children}
-      </div>
-    );
-  }
-  
+export function Card({ children, className }) {
+  return (
+    <div className={`bg-white border border-gray-200 rounded-lg shadow-sm ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+export function CardContent({ children, className }) {
+  return (
+    <div className={`p-4 ${className}`}>
+      {children}
+    </div>
+  );
+}
