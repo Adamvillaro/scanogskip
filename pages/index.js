@@ -6,7 +6,7 @@ export default function Home() {
       {/* Top Navigation Bar */}
       <nav className="w-full bg-[#f7f5f0] py-4 px-6 fixed top-0 left-0 z-50 shadow-sm flex justify-between items-center">
         <a href="mailto:kontakt@scanogskip.dk" className="text-lg font-semibold underline">Kontakt</a>
-        <Image src="/ScanogSkipLogo.png" alt="Logo" width={120} height={40} />
+        <Image src="/ScanogSkipLogo.png" alt="Logo" width={60} height={20} />
       </nav>
 
       <div className="pt-24">
@@ -23,9 +23,7 @@ export default function Home() {
               ventetiden over.
             </p>
           </div>
-          <div>
-            <Image src="/ScanogSkipLogo2.png" alt="ScanogSkip Logo" width={600} height={400} className="rounded-xl" />
-          </div>
+      
         </section>
 
         {/* About Us Section */}
@@ -37,11 +35,11 @@ export default function Home() {
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4 font-serif">Om os</h2>
               <p className="text-base leading-relaxed">
-                Vi er Adam Villaro Krüger og Hannibal Krieger – to iværksættere med en fælles vision
+                Vi hedder Adam Villaro Krüger og Hannibal Krieger – to iværksættere med en fælles vision
                 om at gøre hverdagen lettere for både restauranter og deres gæster.
                 Med over 10 års samlet erfaring inden for restauration, kundeservice og salg,
                 forstår vi branchens behov og udfordringer. Vores mål er at digitalisere og optimere
-                bestillingsoplevelsen.
+                bestillingsoplevelser i hele landet.
               </p>
             </div>
           </div>
@@ -52,7 +50,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto px-6">
             <h3 className="text-3xl md:text-4xl font-extrabold mb-4">WE’RE HIRING</h3>
             <p className="text-lg mb-6">
-              Vi bygger fremtidens bestillingsoplevelsen – og leder efter passionerede folk til at være med.
+              Vi bygger fremtidens bestillingsoplevelser – og leder efter passionerede folk til at være med.
               Har du lyst til at være med på rejsen? Så ræk ud til os.
             </p>
             <a
