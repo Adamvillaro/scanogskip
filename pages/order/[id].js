@@ -18,13 +18,17 @@ export default function OrderStatus() {
     return () => clearInterval(interval)
   }, [id])
 
-  if (!order) return <p>Loading...</p>
+  if (!order) return <p className="p-6 text-center">Henter ordre...</p>
 
   return (
     <div className="p-6 text-center">
       <h1 className="text-xl font-bold mb-4">Ordre Status</h1>
       <p>Status: {order.status === 'complete' ? 'Færdig' : 'I gang...'}</p>
-      {order.status === 'complete' && <p className="mt-2">Din ordre er klar!</p>}
+      {order.status === 'complete' ? (
+        <p className="mt-2">Din ordre er klar!</p>
+      ) : (
+        <p className="mt-2 text-gray-500">Vent venligst...</p>
+      )}
     </div>
   )
 }

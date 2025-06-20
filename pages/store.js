@@ -11,6 +11,8 @@ export default function Store() {
 
   useEffect(() => {
     fetchOrders()
+    const interval = setInterval(fetchOrders, 5000)
+    return () => clearInterval(interval)
   }, [])
 
   const markDone = async (id) => {
@@ -25,6 +27,9 @@ export default function Store() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Indkommende ordrer</h1>
+      {orders.length === 0 && (
+        <p className="text-gray-500">Ingen ordrer endnu</p>
+      )}
       {orders.map(order => (
         <div key={order.id} className="border p-4 mb-4 rounded">
           <p className="font-semibold">Ordre: {order.id}</p>

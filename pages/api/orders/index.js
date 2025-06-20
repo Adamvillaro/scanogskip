@@ -1,5 +1,5 @@
 import { db } from '../../../lib/firebase'
-import { collection, addDoc, getDocs, serverTimestamp } from 'firebase/firestore'
+import { collection, addDoc, getDocs, serverTimestamp, query, orderBy } from 'firebase/firestore'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -18,7 +18,8 @@ export default async function handler(req, res) {
     }
   } else if (req.method === 'GET') {
     try {
-      const snapshot = await getDocs(collection(db, 'orders'))
+      const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'))
+      const snapshot = await getDocs(q)
       const orders = snapshot.docs.map(d => ({ id: d.id, ...d.data() }))
       res.status(200).json(orders)
     } catch (err) {
