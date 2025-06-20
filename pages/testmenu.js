@@ -1,33 +1,32 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-// Starter fra 0 – første ordre bliver 1
-let lastOrderNumber = 0;
-
 export default function TestMenu() {
   const router = useRouter();
   const { butik } = router.query;
   const [orderNumber, setOrderNumber] = useState(null);
 
   const handleOrder = async () => {
-    lastOrderNumber += 1;
-    setOrderNumber(lastOrderNumber);
-
-    console.log("Ordre simuleret lokalt:", {
-      butik: butik || "Ukendt",
-      produkt: "Burger Menu",
-      tidspunkt: new Date(),
-      nummer: lastOrderNumber,
+    const res = await fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        store: butik || 'Ukendt',
+        items: [{ name: 'Burger Menu', qty: 1 }],
+        total: 89,
+      }),
     });
+    const data = await res.json();
+    setOrderNumber(data.id);
   };
 
   if (orderNumber) {
     return (
       <div className="min-h-screen bg-yellow-50 flex flex-col items-center justify-center px-4 py-12 text-yellow-900 text-center">
-        <h1 className="text-4xl font-bold mb-4">Tak for din test-bestilling!</h1>
-        <p className="text-lg">Testnummer:</p>
-        <p className="text-6xl font-extrabold text-yellow-700 mt-4">{orderNumber}</p>
-        <p className="mt-8 text-base">Dette er kun en test – ingen data er gemt.</p>
+        <h1 className="text-4xl font-bold mb-4">Tak for din bestilling!</h1>
+        <p className="text-lg mb-2">Ordre-ID:</p>
+        <p className="text-2xl font-extrabold text-yellow-700">{orderNumber}</p>
+        <a className="mt-6 underline" href={`/order/${orderNumber}`}>Se status</a>
       </div>
     );
   }
