@@ -1,15 +1,17 @@
-// Ny version af testmenu med trinvis navigation mellem kategorier og retter
-import { Card, CardContent } from "../components/ui/card";
+// Ny version af testmenu med clean listevisning og højrepile og produktvisning + tilføj til kurv/køb som menu flow
 import { Button } from "../components/ui/button";
-import { ShoppingCart, X } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import React, { useState } from "react";
 
 export default function TestMenu() {
   const [cart, setCart] = useState([]);
-  const [view, setView] = useState("categories"); // "categories", "items", "confirm"
+  const [view, setView] = useState("categories");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [orderNumber, setOrderNumber] = useState(null);
-  const [error, setError] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [note, setNote] = useState("");
+  const [menuPrompt, setMenuPrompt] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
 
   const categories = [
     {
@@ -18,16 +20,13 @@ export default function TestMenu() {
         { name: "Pep", description: "Pepperoni, dressing", price: 83 },
         { name: "Margherita", description: "Tomat, ost", price: 73 },
         { name: "Hawaii", description: "Skinke, ananas", price: 85 },
-        { name: "Vegetar", description: "Ananas, champignon, løg, artiskok, paprika", price: 88 },
         { name: "Ocakbasi", description: "Hakket oksekød, jalapenos, løg, champignon, chili", price: 92 },
-        { name: "Salatpizza", description: "Kødstrimler/kylling/skinke, salat, dressing", price: 92 },
       ],
     },
     {
       name: "Durum",
       items: [
         { name: "Kebab Durum", description: "Med salat, tomat, dressing", price: 65 },
-        { name: "Kylling Durum", description: "Med salat, tomat, dressing", price: 69 },
       ],
     },
     {
@@ -38,65 +37,53 @@ export default function TestMenu() {
     },
   ];
 
-  const addToCart = (item) => {
-    setCart((prev) => [...prev, item]);
+  const goBackToHome = () => {
     setView("categories");
+    setSelectedItem(null);
+    setSelectedCategory(null);
+    setNote("");
+    setQuantity(1);
+    setMenuPrompt(false);
   };
 
-  const removeFromCart = (index) => {
-    setCart((prev) => prev.filter((_, i) => i !== index));
+  const handleAddToCart = (item, qty, noteText) => {
+    const newItem = { ...item, quantity: qty, note: noteText };
+    setCart((prev) => [...prev, newItem]);
+    setJustAdded(true);
+    setTimeout(() => {
+      setJustAdded(false);
+      goBackToHome();
+    }, 1500);
   };
-
-  const placeOrder = async () => {
-    try {
-      const res = await fetch("/api/orders/testmenu", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: cart }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Noget gik galt med din bestilling.");
-        return;
-      }
-      setOrderNumber(data.number);
-      setCart([]);
-      setError(null);
-    } catch (err) {
-      setError("Serverfejl. Prøv igen.");
-    }
-  };
-
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
-
-  if (orderNumber) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-yellow-50 to-yellow-100 p-6 text-center">
-        <h2 className="text-3xl font-bold text-yellow-900 mb-4">Tak for din bestilling!</h2>
-        <p className="text-lg text-yellow-800">Dit nummer er</p>
-        <p className="text-6xl font-extrabold text-yellow-700 mt-2 mb-6">#{orderNumber}</p>
-        <button onClick={() => { setOrderNumber(null); setView("categories"); }} className="mt-4 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-full">
-          ← Gå tilbage og bestil mere
-        </button>
-      </div>
-    );
-  }
 
   if (view === "categories") {
     return (
-      <div className="min-h-screen bg-yellow-50 p-6 text-center">
-        <h1 className="text-4xl font-bold text-yellow-800 mb-6 border-b pb-2">Vælg kategori</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+      <div className="min-h-screen bg-white text-black p-6 relative">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold">Menu</h1>
+          <span className="text-sm text-gray-700">Menu</span>
+        </div>
+        <div className="divide-y divide-gray-300">
           {categories.map((cat) => (
-            <Button key={cat.name} onClick={() => { setSelectedCategory(cat); setView("items"); }} className="bg-yellow-600 hover:bg-yellow-700 text-white py-6 text-xl font-semibold">
-              {cat.name}
-            </Button>
+            <button
+              key={cat.name}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setView("items");
+              }}
+              className="flex justify-between items-center w-full py-4 text-left"
+            >
+              <span className="text-lg font-semibold">{cat.name}</span>
+              <ChevronRight className="w-5 h-5 text-gray-600" />
+            </button>
           ))}
         </div>
+
         {cart.length > 0 && (
-          <div className="mt-6">
-            <Button onClick={() => setView("confirm")} className="bg-green-600 hover:bg-green-700 text-white">
-              Gå til din kurv ({cart.length})
+          <div className="fixed bottom-4 left-0 right-0 px-6">
+            <Button className="w-full bg-black text-white py-3 rounded-xl flex justify-between items-center">
+              <span>Betal nu</span>
+              <ChevronRight className="w-5 h-5" />
             </Button>
           </div>
         )}
@@ -106,66 +93,106 @@ export default function TestMenu() {
 
   if (view === "items" && selectedCategory) {
     return (
-      <div className="min-h-screen bg-yellow-50 p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-yellow-800">{selectedCategory.name}</h1>
-          <button onClick={() => setView("categories")}> <X className="w-8 h-8 text-yellow-700" /></button>
+      <div className="min-h-screen bg-white text-black p-6">
+        <div className="flex items-center justify-between mb-6">
+          <button onClick={() => setView("categories")} className="text-sm flex items-center text-gray-700">
+            <ChevronLeft className="w-4 h-4 mr-1" /> Tilbage
+          </button>
+          <h1 className="text-xl font-bold text-center flex-1 -ml-4">{selectedCategory.name}</h1>
+          <span className="w-10"></span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          {selectedCategory.items.map((item, index) => (
-            <Card key={index} className="rounded-2xl shadow-xl">
-              <CardContent className="p-6 flex flex-col items-start space-y-3">
-                <h3 className="text-xl font-bold text-yellow-900">{item.name}</h3>
-                <p className="text-yellow-700 text-sm">{item.description}</p>
-                <p className="text-yellow-800 font-semibold">{item.price},00 kr</p>
-                <Button className="bg-yellow-600 hover:bg-yellow-700 text-white w-full" onClick={() => addToCart(item)}>
-                  <ShoppingCart className="h-4 w-4 mr-2" /> Tilføj til kurv
-                </Button>
-              </CardContent>
-            </Card>
+
+        <p className="text-sm text-orange-500 font-semibold mb-2">⭐ Vi anbefaler</p>
+
+        <div className="divide-y divide-gray-200">
+          {selectedCategory.items.map((item, idx) => (
+            <button
+              key={idx}
+              className="w-full text-left py-4"
+              onClick={() => {
+                setSelectedItem(item);
+                setView("product");
+                setQuantity(1);
+                setNote("");
+              }}
+            >
+              <div className="text-lg font-medium">{item.name}</div>
+              <div className="text-sm text-gray-500">{item.description}</div>
+              <div className="text-xs text-gray-600 mt-1">{item.price},00 kr</div>
+            </button>
           ))}
-        </div>
-        <div className="mt-6 text-center space-x-4">
-          <Button onClick={() => setView("categories")} className="text-yellow-700 underline">← Tilbage til kategorier</Button>
-          <Button onClick={() => setView("confirm")} className="text-yellow-700 underline">🛒 Se kurv</Button>
         </div>
       </div>
     );
   }
 
-  if (view === "confirm") {
+  if (view === "product" && selectedItem) {
     return (
-      <div className="min-h-screen bg-yellow-50 p-6 text-center">
-        <h1 className="text-3xl font-bold text-yellow-800 mb-4">🛒 Din kurv</h1>
-        {cart.length === 0 ? (
-          <div>
-            <p className="text-yellow-700">Din kurv er tom.</p>
-            <Button onClick={() => setView("categories")} className="mt-4 text-yellow-700 underline">← Tilbage til bestilling</Button>
+      <div className="min-h-screen bg-white text-black p-6">
+        <div className="flex items-center justify-between mb-6">
+          <button onClick={() => setView("items")} className="text-sm flex items-center text-gray-700">
+            <ChevronLeft className="w-4 h-4 mr-1" /> {selectedCategory.name}
+          </button>
+          <h1 className="text-xl font-bold text-center flex-1 -ml-4">{selectedItem.name}</h1>
+          <span className="w-10"></span>
+        </div>
+
+        <div className="text-sm text-gray-500 mb-4">{selectedItem.price},00 kr</div>
+
+        <div className="w-full h-48 bg-gray-200 rounded-xl mb-6 flex items-center justify-center text-gray-500">
+          (Billede placeholder)
+        </div>
+
+        <div className="flex justify-between mb-6">
+          <div className="flex items-center border rounded-full px-3 py-1 text-sm text-gray-700">
+            <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
+            <span className="mx-2">{quantity}</span>
+            <button onClick={() => setQuantity(q => q + 1)}>+</button>
+          </div>
+          <input
+            className="flex-1 ml-4 border border-gray-300 rounded-xl px-3 py-2 text-sm"
+            placeholder="Tilpasning, allergener..."
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
+        </div>
+
+        {menuPrompt ? (
+          <div className="space-y-4">
+            <div className="bg-gray-100 p-4 rounded-xl">
+              <p className="font-medium mb-2">Tilføj menu?</p>
+              <p className="text-sm text-gray-600">Stor pommes frites + sodavand for 20 kr ekstra</p>
+            </div>
+            <Button
+              className="w-full bg-black text-white py-3 rounded-xl"
+              onClick={() => handleAddToCart({ ...selectedItem, name: selectedItem.name + " (menu)", price: selectedItem.price + 20 }, quantity, note)}
+            >
+              Læg i kurv
+            </Button>
           </div>
         ) : (
-          <div className="max-w-lg mx-auto space-y-2">
-            {cart.map((item, i) => (
-              <div key={i} className="flex justify-between items-center text-yellow-800">
-                <span>{item.name}</span>
-                <div className="flex items-center space-x-2">
-                  <span>{item.price},00 kr</span>
-                  <Button className="bg-red-500 hover:bg-red-600" onClick={() => removeFromCart(i)}>
-                    Fjern
-                  </Button>
-                </div>
-              </div>
-            ))}
-            <p className="mt-2 font-bold text-lg text-yellow-900">Total: {total},00 kr</p>
-            <Button className="bg-green-600 hover:bg-green-700 text-white mt-4" onClick={placeOrder}>
-              Bekræft bestilling
+          <div className="grid grid-cols-2 gap-4">
+            <Button
+              className="bg-black text-white py-3 rounded-xl"
+              onClick={() => handleAddToCart(selectedItem, quantity, note)}
+            >
+              Læg i kurv
             </Button>
-            <div className="mt-4">
-              <Button onClick={() => setView("categories")} className="text-yellow-700 underline">← Tilføj mere</Button>
-            </div>
+            <Button
+              className="bg-gray-800 text-white py-3 rounded-xl"
+              onClick={() => setMenuPrompt(true)}
+            >
+              Køb som menu
+            </Button>
           </div>
         )}
-        {error && <p className="text-red-600 mt-4">{error}</p>}
+
+        {justAdded && (
+          <div className="mt-4 text-green-600 font-medium text-center">Tilføjet ✅</div>
+        )}
       </div>
     );
   }
+
+  return null;
 }
