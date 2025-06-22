@@ -49,5 +49,10 @@ export default function Shop({ code }) {
 }
 
 export async function getServerSideProps({ params }) {
+  const allowed = ["ockabasi", "testmenu"];
+  if (!allowed.includes(params.code)) {
+    return { notFound: true };
+  }
+
   return { props: { code: params.code } };
 }
