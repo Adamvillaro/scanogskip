@@ -1,58 +1,56 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const menu = [
-  { name: 'Burger', price: 50 },
-  { name: 'Pommes Frites', price: 30 },
-];
+export default function OrderView({ code }) {
+  const [orders, setOrders] = useState([]);
 
-export default function OrderPage({ shopCode }) {
-  const [orderNumber, setOrderNumber] = useState(null);
-  const [status, setStatus] = useState('pending');
-
-  const placeOrder = async () => {
-    const res = await fetch('/api/orders', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ shopCode, items: menu }),
-    });
-    const data = await res.json();
-    setOrderNumber(data.number);
-    pollStatus(data.number);
-  };
-
-  const pollStatus = (num) => {
-    const check = async () => {
-      const res = await fetch(`/api/orders/${shopCode}/${num}`);
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const res = await fetch(`/api/orders/${code}`);
       const data = await res.json();
-      setStatus(data.status);
-      if (data.status !== 'ready') setTimeout(check, 2000);
+      setOrders(data);
     };
-    check();
-  };
+    fetchOrders();
+    const interval = setInterval(fetchOrders, 2000);
+    return () => clearInterval(interval);
+  }, [code]);
 
-  if (orderNumber) {
-    return (
-      <div className="p-6 text-center font-sans">
-        <h1 className="text-3xl mb-4">Din ordre #{orderNumber}</h1>
-        <p>Status: {status}</p>
-        {status === 'ready' && <p className="text-green-600">Din ordre er klar!</p>}
-      </div>
-    );
-  }
+  const markReady = async (number) => {
+    await fetch(`/api/orders/${code}/${number}`, { method: 'POST' });
+    const res = await fetch(`/api/orders/${code}`);
+    setOrders(await res.json());
+  };
 
   return (
-    <div className="p-6 font-sans text-center">
-      <h1 className="text-2xl mb-4">Bestil hos {shopCode}</h1>
-      <button
-        onClick={placeOrder}
-        className="bg-yellow-600 text-white px-4 py-2 rounded"
-      >
-        Bestil eksempelmenu
-      </button>
+    <div style={{ backgroundColor: 'black', color: 'white', minHeight: '100vh', padding: '2rem', fontFamily: 'sans-serif' }}>
+      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Ordrer - {code}</h1>
+      {orders.length === 0 ? (
+        <p>Ingen ordrer endnu</p>
+      ) : (
+        <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {orders.map((order) => (
+            <li key={order.number} style={{ border: '1px solid white', padding: '1rem', borderRadius: '0.5rem' }}>
+              <p style={{ fontSize: '1.5rem' }}>#{order.number}</p>
+              <ul>
+                {order.items.map((item, index) => (
+                  <li key={index}>{item.name}</li>
+                ))}
+              </ul>
+              {order.status !== 'ready' && (
+                <button
+                  onClick={() => markReady(order.number)}
+                  style={{ marginTop: '1rem', backgroundColor: 'white', color: 'black', padding: '0.5rem 1rem', border: 'none', borderRadius: '0.25rem', cursor: 'pointer' }}
+                >
+                  Marker som færdig
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
 
 export async function getServerSideProps({ params }) {
-  return { props: { shopCode: params.shopCode } };
+  return { props: { code: params.shopCode } };
 }
