@@ -192,7 +192,7 @@ export default function TestMenu() {
           </div>
           <input
             className="flex-1 ml-4 border border-gray-300 rounded-xl px-3 py-2 text-sm"
-            placeholder="Tilpasning, allergener..."
+            placeholder="Kommentar og allergener"
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
