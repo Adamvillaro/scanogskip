@@ -1,52 +1,122 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { Card, CardContent } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { ShoppingCart } from "lucide-react";
+import { motion } from "framer-motion";
+import React, { useState } from "react";
 
-// Starter fra 0 – første ordre bliver 1
-let lastOrderNumber = 0;
-
-export default function TestMenu() {
-  const router = useRouter();
-  const { butik } = router.query;
+export default function Testmenu() {
+  const [cart, setCart] = useState([]);
+  const [showCart, setShowCart] = useState(false);
   const [orderNumber, setOrderNumber] = useState(null);
 
-  const handleOrder = async () => {
-    lastOrderNumber += 1;
-    setOrderNumber(lastOrderNumber);
+  const menu = [
+    { name: "Pep", description: "Pepperoni, dressing", price: 83 },
+    { name: "Margherita", description: "Tomat, ost", price: 73 },
+    { name: "Hawaii", description: "Skinke, ananas", price: 85 },
+    { name: "Vegetar", description: "Ananas, champignon, løg, artiskok, paprika", price: 88 },
+    { name: "Ocakbasi", description: "Hakket oksekød, jalapenos, løg, champignon, chili", price: 92 },
+    // ... du kan udvide med resten
+  ];
 
-    console.log("Ordre simuleret lokalt:", {
-      butik: butik || "Ukendt",
-      produkt: "Burger Menu",
-      tidspunkt: new Date(),
-      nummer: lastOrderNumber,
-    });
+  const addToCart = (item) => {
+    setCart((prev) => [...prev, item]);
+    setShowCart(true);
   };
+
+  const removeFromCart = (index) => {
+    setCart((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const placeOrder = async () => {
+    const res = await fetch("/api/orders/testshop", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ shopCode: "testshop", items: cart }),
+    });
+    const data = await res.json();
+    setOrderNumber(data.number);
+    setCart([]);
+  };
+
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   if (orderNumber) {
     return (
-      <div className="min-h-screen bg-yellow-50 flex flex-col items-center justify-center px-4 py-12 text-yellow-900 text-center">
-        <h1 className="text-4xl font-bold mb-4">Tak for din test-bestilling!</h1>
-        <p className="text-lg">Testnummer:</p>
-        <p className="text-6xl font-extrabold text-yellow-700 mt-4">{orderNumber}</p>
-        <p className="mt-8 text-base">Dette er kun en test – ingen data er gemt.</p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-yellow-50 to-yellow-100 p-6 text-center">
+        <h2 className="text-3xl font-bold text-yellow-900 mb-4">Tak for din testbestilling!</h2>
+        <p className="text-lg text-yellow-800">Dit testnummer er</p>
+        <p className="text-6xl font-extrabold text-yellow-700 mt-2">#{orderNumber}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-yellow-50 flex flex-col items-center px-4 py-8 text-yellow-900 text-center">
-      <h1 className="text-4xl font-bold mb-6">Velkommen til Testmenu</h1>
+    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 p-6">
+      <div className="max-w-4xl mx-auto text-center">
+        <h1 className="text-5xl font-extrabold text-yellow-800 mb-2">Testmenu</h1>
+        <p className="text-yellow-700 mb-8 text-lg">Bestil noget og leg frit 🧪</p>
 
-      <div className="w-full max-w-sm">
-        <div className="bg-white rounded-2xl shadow-md p-6 mb-6">
-          <h2 className="text-2xl font-semibold mb-2">🍔 Burger Menu</h2>
-          <p className="text-base mb-2">Saftig burger med pommes frites</p>
-          <p className="text-yellow-700 font-bold text-lg mb-6">Pris: 89 kr</p>
-          <button
-            onClick={handleOrder}
-            className="w-full bg-yellow-600 text-white text-lg font-medium px-6 py-3 rounded-2xl hover:bg-yellow-700 transition"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {menu.map((item, index) => (
+            <Card key={index} className="rounded-2xl shadow-xl hover:scale-[1.02] transition">
+              <CardContent className="p-6 flex flex-col items-start space-y-3">
+                <h2 className="text-xl font-bold text-yellow-900">{item.name}</h2>
+                <p className="text-yellow-700 text-sm">{item.description}</p>
+                <p className="text-yellow-800 font-semibold">{item.price},00 kr</p>
+                <Button
+                  className="bg-yellow-600 hover:bg-yellow-700 text-white w-full"
+                  onClick={() => addToCart(item)}
+                >
+                  <ShoppingCart className="h-4 w-4 mr-2" />
+                  Tilføj til kurv
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="mt-12 border-t pt-6">
+          <Button
+            className="mb-4 bg-yellow-500 hover:bg-yellow-600"
+            onClick={() => setShowCart((s) => !s)}
           >
-            Bestil test
-          </button>
+            {showCart ? "Skjul kurv" : `Vis kurv (${cart.length})`}
+          </Button>
+          {showCart && (
+            <div>
+              <h3 className="text-2xl font-bold text-yellow-900 mb-2">🛒 Din kurv</h3>
+              {cart.length === 0 ? (
+                <p className="text-yellow-700">Din kurv er tom.</p>
+              ) : (
+                <div className="space-y-2">
+                  {cart.map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex justify-between items-center text-yellow-800"
+                    >
+                      <span>{item.name}</span>
+                      <div className="flex items-center space-x-2">
+                        <span>{item.price},00 kr</span>
+                        <Button
+                          className="bg-red-500 hover:bg-red-600"
+                          onClick={() => removeFromCart(i)}
+                        >
+                          Fjern
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                  <p className="mt-2 font-bold text-lg text-yellow-900">Total: {total},00 kr</p>
+                  <Button
+                    className="bg-green-600 hover:bg-green-700 text-white mt-2"
+                    onClick={placeOrder}
+                  >
+                    Bestil
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
