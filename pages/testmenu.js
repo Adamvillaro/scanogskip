@@ -40,7 +40,7 @@ export default function TestMenu() {
 
   const addToCart = (item) => {
     setCart((prev) => [...prev, item]);
-    setView("confirm");
+    setView("categories");
   };
 
   const removeFromCart = (index) => {
@@ -93,6 +93,13 @@ export default function TestMenu() {
             </Button>
           ))}
         </div>
+        {cart.length > 0 && (
+          <div className="mt-6">
+            <Button onClick={() => setView("confirm")} className="bg-green-600 hover:bg-green-700 text-white">
+              Gå til din kurv ({cart.length})
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
@@ -118,8 +125,9 @@ export default function TestMenu() {
             </Card>
           ))}
         </div>
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center space-x-4">
           <Button onClick={() => setView("categories")} className="text-yellow-700 underline">← Tilbage til kategorier</Button>
+          <Button onClick={() => setView("confirm")} className="text-yellow-700 underline">🛒 Se kurv</Button>
         </div>
       </div>
     );
@@ -130,7 +138,10 @@ export default function TestMenu() {
       <div className="min-h-screen bg-yellow-50 p-6 text-center">
         <h1 className="text-3xl font-bold text-yellow-800 mb-4">🛒 Din kurv</h1>
         {cart.length === 0 ? (
-          <p className="text-yellow-700">Din kurv er tom.</p>
+          <div>
+            <p className="text-yellow-700">Din kurv er tom.</p>
+            <Button onClick={() => setView("categories")} className="mt-4 text-yellow-700 underline">← Tilbage til bestilling</Button>
+          </div>
         ) : (
           <div className="max-w-lg mx-auto space-y-2">
             {cart.map((item, i) => (
