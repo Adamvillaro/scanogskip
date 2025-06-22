@@ -1,7 +1,6 @@
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import { motion } from "framer-motion";
 import React, { useState } from "react";
 
 export default function Testmenu() {
@@ -15,7 +14,6 @@ export default function Testmenu() {
     { name: "Hawaii", description: "Skinke, ananas", price: 85 },
     { name: "Vegetar", description: "Ananas, champignon, løg, artiskok, paprika", price: 88 },
     { name: "Ocakbasi", description: "Hakket oksekød, jalapenos, løg, champignon, chili", price: 92 },
-    // ... du kan udvide med resten
   ];
 
   const addToCart = (item) => {
@@ -28,14 +26,25 @@ export default function Testmenu() {
   };
 
   const placeOrder = async () => {
-    const res = await fetch("/api/orders/testshop", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ shopCode: "testshop", items: cart }),
-    });
-    const data = await res.json();
-    setOrderNumber(data.number);
-    setCart([]);
+    try {
+      const res = await fetch("/api/orders/testshop", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ shopCode: "testshop", items: cart }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Fejl ved bestilling");
+      }
+
+      const data = await res.json();
+      setOrderNumber(data.number);
+      setCart([]);
+      setShowCart(false);
+    } catch (err) {
+      alert("Noget gik galt med din bestilling – prøv igen.");
+      console.error(err);
+    }
   };
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
@@ -54,7 +63,7 @@ export default function Testmenu() {
     <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 p-6">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-5xl font-extrabold text-yellow-800 mb-2">Testmenu</h1>
-        <p className="text-yellow-700 mb-8 text-lg">Bestil noget og leg frit 🧪</p>
+        <p className="text-yellow-700 mb-8 text-lg">Bestil og leg frit 🧪</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {menu.map((item, index) => (
@@ -82,6 +91,7 @@ export default function Testmenu() {
           >
             {showCart ? "Skjul kurv" : `Vis kurv (${cart.length})`}
           </Button>
+
           {showCart && (
             <div>
               <h3 className="text-2xl font-bold text-yellow-900 mb-2">🛒 Din kurv</h3>
