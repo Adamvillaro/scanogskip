@@ -1,13 +1,12 @@
-// pages/ockabasi.js
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 
-
 export default function Ockabasi() {
   const [cart, setCart] = useState([]);
+  const [orderNumber, setOrderNumber] = useState(null);
 
   const menu = [
     { name: "Pep", description: "Pepperoni, dressing", price: 83 },
@@ -26,7 +25,28 @@ export default function Ockabasi() {
     setCart((prev) => [...prev, item]);
   };
 
+  const placeOrder = async () => {
+    const res = await fetch('/api/orders/ockabasi', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ shopCode: 'ockabasi', items: cart }),
+    });
+    const data = await res.json();
+    setOrderNumber(data.number);
+    setCart([]);
+  };
+
   const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  if (orderNumber) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-yellow-50 to-yellow-100 p-6 text-center">
+        <h2 className="text-3xl font-bold text-yellow-900 mb-4">Tak for din bestilling!</h2>
+        <p className="text-lg text-yellow-800">Dit nummer er</p>
+        <p className="text-6xl font-extrabold text-yellow-700 mt-2">#{orderNumber}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 p-6">
@@ -66,8 +86,11 @@ export default function Ockabasi() {
                 </div>
               ))}
               <p className="mt-2 font-bold text-lg text-yellow-900">Total: {total},00 kr</p>
-              <Button className="bg-green-600 hover:bg-green-700 text-white mt-2">
-                Gå til betaling
+              <Button
+                className="bg-green-600 hover:bg-green-700 text-white mt-2"
+                onClick={placeOrder}
+              >
+                Bestil
               </Button>
             </div>
           )}
