@@ -55,7 +55,7 @@ export default function TestMenu() {
     setTimeout(() => {
       setJustAdded(false);
       goBackToHome();
-    }, 1500);
+    }, 2000);
   };
 
   const placeOrder = async () => {
