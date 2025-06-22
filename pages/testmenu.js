@@ -1,7 +1,7 @@
 // Ny version af testmenu med trinvis navigation mellem kategorier og retter
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, X } from "lucide-react";
 import React, { useState } from "react";
 
 export default function TestMenu() {
@@ -75,7 +75,7 @@ export default function TestMenu() {
         <h2 className="text-3xl font-bold text-yellow-900 mb-4">Tak for din bestilling!</h2>
         <p className="text-lg text-yellow-800">Dit nummer er</p>
         <p className="text-6xl font-extrabold text-yellow-700 mt-2 mb-6">#{orderNumber}</p>
-        <button onClick={() => setOrderNumber(null)} className="mt-4 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-full">
+        <button onClick={() => { setOrderNumber(null); setView("categories"); }} className="mt-4 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-full">
           ← Gå tilbage og bestil mere
         </button>
       </div>
@@ -85,10 +85,10 @@ export default function TestMenu() {
   if (view === "categories") {
     return (
       <div className="min-h-screen bg-yellow-50 p-6 text-center">
-        <h1 className="text-4xl font-bold text-yellow-800 mb-6">Vælg kategori</h1>
+        <h1 className="text-4xl font-bold text-yellow-800 mb-6 border-b pb-2">Vælg kategori</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {categories.map((cat) => (
-            <Button key={cat.name} onClick={() => { setSelectedCategory(cat); setView("items"); }} className="bg-yellow-600 hover:bg-yellow-700 text-white py-6">
+            <Button key={cat.name} onClick={() => { setSelectedCategory(cat); setView("items"); }} className="bg-yellow-600 hover:bg-yellow-700 text-white py-6 text-xl font-semibold">
               {cat.name}
             </Button>
           ))}
@@ -107,7 +107,10 @@ export default function TestMenu() {
   if (view === "items" && selectedCategory) {
     return (
       <div className="min-h-screen bg-yellow-50 p-6">
-        <h1 className="text-3xl font-bold text-yellow-800 mb-4 text-center">{selectedCategory.name}</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-yellow-800">{selectedCategory.name}</h1>
+          <button onClick={() => setView("categories")}> <X className="w-8 h-8 text-yellow-700" /></button>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {selectedCategory.items.map((item, index) => (
             <Card key={index} className="rounded-2xl shadow-xl">
@@ -115,10 +118,7 @@ export default function TestMenu() {
                 <h3 className="text-xl font-bold text-yellow-900">{item.name}</h3>
                 <p className="text-yellow-700 text-sm">{item.description}</p>
                 <p className="text-yellow-800 font-semibold">{item.price},00 kr</p>
-                <Button
-                  className="bg-yellow-600 hover:bg-yellow-700 text-white w-full"
-                  onClick={() => addToCart(item)}
-                >
+                <Button className="bg-yellow-600 hover:bg-yellow-700 text-white w-full" onClick={() => addToCart(item)}>
                   <ShoppingCart className="h-4 w-4 mr-2" /> Tilføj til kurv
                 </Button>
               </CardContent>
