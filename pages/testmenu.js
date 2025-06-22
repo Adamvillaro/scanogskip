@@ -55,7 +55,13 @@ export default function TestMenu() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-yellow-50 to-yellow-100 p-6 text-center">
         <h2 className="text-3xl font-bold text-yellow-900 mb-4">Tak for din bestilling!</h2>
         <p className="text-lg text-yellow-800">Dit nummer er</p>
-        <p className="text-6xl font-extrabold text-yellow-700 mt-2">#{orderNumber}</p>
+        <p className="text-6xl font-extrabold text-yellow-700 mt-2 mb-6">#{orderNumber}</p>
+        <button
+          onClick={() => setOrderNumber(null)}
+          className="mt-4 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-full"
+        >
+          ← Gå tilbage og bestil mere
+        </button>
       </div>
     );
   }
