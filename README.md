@@ -38,3 +38,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+
+### Restaurant Codes
+
+Each restaurant can be accessed via a unique 10‑digit code appended to the domain. For example:
+
+```
+https://scanogskip.dk/1234567890
+```
+
+The example above opens the Ockabasi menu. You can define additional codes in `pages/[code].js`.
