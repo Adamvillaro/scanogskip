@@ -1,19 +1,19 @@
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { ShoppingCart } from "lucide-react";
+import { motion } from "framer-motion";
 import React, { useState } from "react";
 
-export default function Testmenu() {
+export default function TestMenu() {
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [orderNumber, setOrderNumber] = useState(null);
+  const [error, setError] = useState(null);
 
   const menu = [
     { name: "Pep", description: "Pepperoni, dressing", price: 83 },
     { name: "Margherita", description: "Tomat, ost", price: 73 },
     { name: "Hawaii", description: "Skinke, ananas", price: 85 },
-    { name: "Vegetar", description: "Ananas, champignon, løg, artiskok, paprika", price: 88 },
-    { name: "Ocakbasi", description: "Hakket oksekød, jalapenos, løg, champignon, chili", price: 92 },
   ];
 
   const addToCart = (item) => {
@@ -27,23 +27,24 @@ export default function Testmenu() {
 
   const placeOrder = async () => {
     try {
-      const res = await fetch("/api/orders/testshop", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ shopCode: "testshop", items: cart }),
+      const res = await fetch('/api/orders/testmenu', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart }),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        throw new Error("Fejl ved bestilling");
+        setError(data.error || "Noget gik galt med din bestilling.");
+        return;
       }
 
-      const data = await res.json();
       setOrderNumber(data.number);
       setCart([]);
-      setShowCart(false);
+      setError(null);
     } catch (err) {
-      alert("Noget gik galt med din bestilling – prøv igen.");
-      console.error(err);
+      setError("Serverfejl. Prøv igen.");
     }
   };
 
@@ -52,8 +53,8 @@ export default function Testmenu() {
   if (orderNumber) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-yellow-50 to-yellow-100 p-6 text-center">
-        <h2 className="text-3xl font-bold text-yellow-900 mb-4">Tak for din testbestilling!</h2>
-        <p className="text-lg text-yellow-800">Dit testnummer er</p>
+        <h2 className="text-3xl font-bold text-yellow-900 mb-4">Tak for din bestilling!</h2>
+        <p className="text-lg text-yellow-800">Dit nummer er</p>
         <p className="text-6xl font-extrabold text-yellow-700 mt-2">#{orderNumber}</p>
       </div>
     );
@@ -62,8 +63,8 @@ export default function Testmenu() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 p-6">
       <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-5xl font-extrabold text-yellow-800 mb-2">Testmenu</h1>
-        <p className="text-yellow-700 mb-8 text-lg">Bestil og leg frit 🧪</p>
+        <h1 className="text-5xl font-extrabold text-yellow-800 mb-2">Test Menu</h1>
+        <p className="text-yellow-700 mb-8 text-lg">Bestil din mad direkte her</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {menu.map((item, index) => (
@@ -125,6 +126,7 @@ export default function Testmenu() {
                   </Button>
                 </div>
               )}
+              {error && <p className="text-red-600 mt-4">{error}</p>}
             </div>
           )}
         </div>

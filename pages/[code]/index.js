@@ -21,25 +21,29 @@ export default function Shop({ code }) {
   };
 
   return (
-    <div className="p-4 font-sans">
-      <h1 className="text-2xl font-bold mb-4">Ordreoversigt {code}</h1>
-      <ul className="space-y-2">
-        {orders.map((o) => (
-          <li key={o.number} className="border p-2 rounded flex justify-between">
-            <span>
-              #{o.number} - {o.status}
-            </span>
-            {o.status !== 'ready' && (
-              <button
-                onClick={() => markReady(o.number)}
-                className="bg-green-600 text-white px-3 py-1 rounded"
-              >
-                Marker klar
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-6 font-sans">
+      <div className="max-w-xl mx-auto">
+        <h1 className="text-4xl font-semibold mb-6 text-center">Ordrer {code}</h1>
+        <ul className="space-y-4">
+          {orders.map((o) => (
+            <li
+              key={o.number}
+              className="bg-white rounded-2xl shadow flex justify-between items-center px-4 py-3"
+            >
+              <span className="text-lg font-medium">#{o.number}</span>
+              <span className="text-gray-500">{o.status}</span>
+              {o.status !== 'ready' && (
+                <button
+                  onClick={() => markReady(o.number)}
+                  className="ml-4 bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-full"
+                >
+                  Marker klar
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
