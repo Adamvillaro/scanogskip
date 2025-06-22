@@ -53,9 +53,9 @@ export default function TestMenu() {
 
   const placeOrder = async () => {
     try {
-      const res = await fetch('/api/orders/testmenu', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/orders/testmenu", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items: cart }),
       });
 
@@ -140,10 +140,7 @@ export default function TestMenu() {
               ) : (
                 <div className="space-y-2">
                   {cart.map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex justify-between items-center text-yellow-800"
-                    >
+                    <div key={i} className="flex justify-between items-center text-yellow-800">
                       <span>{item.name}</span>
                       <div className="flex items-center space-x-2">
                         <span>{item.price},00 kr</span>
