@@ -12,6 +12,8 @@ export default function TestMenu() {
   const [note, setNote] = useState("");
   const [menuPrompt, setMenuPrompt] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [orderNumber, setOrderNumber] = useState(null);
+  const [error, setError] = useState(null);
 
   const categories = [
     {
@@ -56,6 +58,42 @@ export default function TestMenu() {
     }, 1500);
   };
 
+  const placeOrder = async () => {
+    try {
+      const res = await fetch("/api/orders/testmenu", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: cart }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Noget gik galt med din bestilling.");
+        return;
+      }
+      setOrderNumber(data.number);
+      setCart([]);
+      setError(null);
+    } catch (err) {
+      setError("Serverfejl. Prøv igen.");
+    }
+  };
+
+  if (orderNumber) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white p-6 text-center">
+        <h2 className="text-3xl font-bold text-black mb-4">Tak for din bestilling!</h2>
+        <p className="text-lg text-gray-700">Dit nummer er</p>
+        <p className="text-6xl font-extrabold text-black mt-2 mb-6">#{orderNumber}</p>
+        <button
+          onClick={() => setOrderNumber(null)}
+          className="mt-4 bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-full"
+        >
+          ← Gå tilbage til start
+        </button>
+      </div>
+    );
+  }
+
   if (view === "categories") {
     return (
       <div className="min-h-screen bg-white text-black p-6 relative">
@@ -81,7 +119,10 @@ export default function TestMenu() {
 
         {cart.length > 0 && (
           <div className="fixed bottom-4 left-0 right-0 px-6">
-            <Button className="w-full bg-black text-white py-3 rounded-xl flex justify-between items-center">
+            <Button
+              className="w-full bg-black text-white py-3 rounded-xl flex justify-between items-center"
+              onClick={placeOrder}
+            >
               <span>Betal nu</span>
               <ChevronRight className="w-5 h-5" />
             </Button>
