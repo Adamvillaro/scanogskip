@@ -1,6 +1,6 @@
 import { Button } from "../components/ui/button";
 import { ChevronRight, ChevronLeft, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function OcakbasiMenu() {
   const [cart, setCart] = useState([]);
@@ -13,24 +13,64 @@ export default function OcakbasiMenu() {
   const [orderNumber, setOrderNumber] = useState(null);
   const [diningOption, setDiningOption] = useState(null);
 
-  const categoryNames = [
-    "A la carte", "Børneretter", "Drikkevarer", "durum", "Dyppelse",
-    "Ocakbasi burger", "ocakbasi pizzaer", "Pasta ret", "Pitabrød",
-    "Pizzasandwich", "Salater", "Tilbehør"
-  ];
-
-  const categories = categoryNames.map(name => {
-    const folder = name.toLowerCase().replace(/ /g, "");
-    return {
+  const categories = [
+    {
+      name: "A la carte",
+      items: ["Mix grill", "Kyllingespyd", "Lammekoteletter", "Adana kebab"],
+    },
+    {
+      name: "Børneretter",
+      items: ["Nuggets", "Børneburger", "Mini pizza", "Pommes frites"],
+    },
+    {
+      name: "Drikkevarer",
+      items: ["Cola", "Fanta", "Vand", "Ayran"],
+    },
+    {
+      name: "durum",
+      items: ["Durum kebab", "Durum kylling", "Durum mix", "Durum vegetar"],
+    },
+    {
+      name: "Dyppelse",
+      items: ["Hvidløg", "Chili", "Remoulade", "Ketchup"],
+    },
+    {
+      name: "Ocakbasi burger",
+      items: ["Cheeseburger", "Big burger", "Kyllingeburger", "Dobbelt burger"],
+    },
+    {
+      name: "ocakbasi pizzaer",
+      items: ["Margherita", "Pepperoni", "Hawaii", "Vegetar"],
+    },
+    {
+      name: "Pasta ret",
+      items: ["Pasta kødsovs", "Pasta kylling", "Pasta vegetar", "Lasagne"],
+    },
+    {
+      name: "Pitabrød",
+      items: ["Pita kebab", "Pita kylling", "Pita mix", "Pita falafel"],
+    },
+    {
+      name: "Pizzasandwich",
+      items: ["Sandwich kebab", "Sandwich kylling", "Sandwich mix", "Sandwich vegetar"],
+    },
+    {
+      name: "Salater",
+      items: ["Græsk salat", "Kyllingesalat", "Tun salat", "Vegetarsalat"],
+    },
+    {
+      name: "Tilbehør",
+      items: ["Pommes frites", "Løgringe", "Mozzarella sticks", "Falafel"],
+    },
+  ].map(cat => ({
+    ...cat,
+    items: cat.items.map(name => ({
       name,
-      items: Array.from({ length: 20 }, (_, i) => ({
-        name: `${name} Ret ${i + 1}`,
-        description: `Beskrivelse af ${name} Ret ${i + 1}`,
-        price: 69 + (i % 5) * 5,
-        image: `/ocakbasi/${name}/${name.toLowerCase()}${i + 1}.jpeg.avif`
-      }))
-    };
-  });
+      description: `Lækker ${name.toLowerCase()} fra Ocakbasi`,
+      price: 65 + name.length % 5 * 5,
+      image: `/ocakbasi/${cat.name}/${name}.jpeg.avif`
+    }))
+  }));
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -69,9 +109,9 @@ export default function OcakbasiMenu() {
 
   if (view === "categories") {
     return (
-      <div className="min-h-screen bg-white text-black flex">
+      <div className="min-h-screen bg-white text-black flex flex-col lg:flex-row">
         <div className="flex-1">
-          <div className="overflow-x-auto flex space-x-4 p-4 border-b">
+          <div className="overflow-x-auto flex space-x-4 p-4 border-b sticky top-0 bg-white z-30">
             {categories.map((cat, idx) => (
               <button key={idx} onClick={() => setSelectedCategory(cat)} className="text-sm font-semibold whitespace-nowrap px-4 py-2 bg-gray-100 rounded-full">
                 {cat.name}
@@ -79,7 +119,7 @@ export default function OcakbasiMenu() {
             ))}
           </div>
 
-          <div className="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2">
+          <div className="p-4 grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-2">
             {(selectedCategory?.items || []).map((item, idx) => (
               <div key={idx} className="border rounded-xl overflow-hidden shadow-sm bg-white">
                 <img src={item.image} alt={item.name} className="w-full h-40 object-cover" />
@@ -97,7 +137,7 @@ export default function OcakbasiMenu() {
         </div>
 
         {cart.length > 0 && (
-          <div className="hidden lg:block w-[360px] fixed right-0 top-0 h-full bg-white shadow-xl border-l p-6 z-50 overflow-y-auto">
+          <div className="w-full lg:w-[360px] bg-white shadow-xl border-l p-6 z-50 overflow-y-auto fixed lg:static bottom-0 left-0 right-0">
             <h3 className="text-xl font-bold mb-4">Din kurv</h3>
             {cart.map((item, idx) => (
               <div key={idx} className="flex justify-between items-center text-sm mb-2">
