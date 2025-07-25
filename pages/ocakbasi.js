@@ -34,8 +34,15 @@ export default function OcakbasiMenu() {
       .replace(/ /g, "_")
       .replace(/æ/g, "ae")
       .replace(/ø/g, "oe")
-      .replace(/å/g, "aa");
+      .replace(/å/g, "aa")
+      .replace("børneretter", "boerneretter")
+      .replace("tilbehør", "tilbehoer")
+      .replace("pita", "pitabroed")
+      .replace("pasta", "pasta_ret")
+      .replace("durumrulle", "durum")
+      .replace("a la carte", "a_la_carte");
   }
+  
 
   const categories = rawCategories.map(cat => ({
     ...cat,
