@@ -14,106 +14,18 @@ export default function OcakbasiMenu() {
   const [diningOption, setDiningOption] = useState(null);
 
   const categories = [
-    {
-      name: "A la carte",
-      items: [
-        {
-          name: "Mix Grill",
-          description: "Kebab, kylling, adana, ris og salat",
-          price: 139,
-          image: "/ocakbasi/a-la-carte/mix-grill.jpeg"
-        },
-        {
-          name: "Adana kebab",
-          description: "Hakket krydret kød på spyd med salat og ris",
-          price: 109,
-          image: "/ocakbasi/a-la-carte/adana-kebab.jpeg"
-        }
-      ]
-    },
-    {
-      name: "Pizza",
-      items: [
-        {
-          name: "Margherita",
-          description: "Tomat, ost",
-          price: 73,
-          image: "/ocakbasi/pizza/margherita.jpeg"
-        },
-        {
-          name: "Pepperoni",
-          description: "Pepperoni, dressing",
-          price: 83,
-          image: "/ocakbasi/pizza/pepperoni.jpeg"
-        }
-      ]
-    },
-    {
-      name: "Burger",
-      items: [
-        {
-          name: "Big burger",
-          description: "Klassisk burger med oksekød",
-          price: 49,
-          image: "/ocakbasi/burger/big-burger.jpeg"
-        }
-      ]
-    },
-    {
-      name: "Durumrulle",
-      items: [
-        {
-          name: "Kebab Durum",
-          description: "Salat, tomat, dressing",
-          price: 65,
-          image: "/ocakbasi/durumrulle/kebab-durum.jpeg"
-        }
-      ]
-    },
-    {
-      name: "Salater",
-      items: [
-        {
-          name: "Kyllingesalat",
-          description: "Frisk salat med kylling",
-          price: 65,
-          image: "/ocakbasi/salater/kyllingesalat.jpeg"
-        }
-      ]
-    },
-    {
-      name: "Tilbehør",
-      items: [
-        {
-          name: "Pommes frites",
-          description: "Sprøde fritter",
-          price: 39,
-          image: "/ocakbasi/tilbehoer/pommes.jpeg"
-        }
-      ]
-    },
-    {
-      name: "Drikkevarer",
-      items: [
-        {
-          name: "Cola 0,5L",
-          description: "Kold sodavand",
-          price: 20,
-          image: "/ocakbasi/drikkevarer/cola.jpeg"
-        }
-      ]
-    },
-    {
-      name: "Børneretter",
-      items: [
-        {
-          name: "Børnepizza",
-          description: "Lille pizza med ost og skinke",
-          price: 55,
-          image: "/ocakbasi/boerneretter/boernepizza.jpeg"
-        }
-      ]
-    }
+    { name: "Pizza", items: [
+      { name: "Pepperoni", description: "Pepperoni og ost", price: 85, image: "/ocakbasi/pizza/pepperoni.jpeg.avif" },
+      { name: "Margherita", description: "Tomat og ost", price: 75, image: "/ocakbasi/pizza/margherita.jpeg.avif" }
+    ]},
+    { name: "Burger", items: [
+      { name: "Cheeseburger", description: "Burger med ost og salat", price: 65, image: "/ocakbasi/burger/cheeseburger.jpeg.avif" },
+      { name: "Kyllingeburger", description: "Burger med kyllingefilet", price: 70, image: "/ocakbasi/burger/kyllingeburger.jpeg.avif" }
+    ]},
+    { name: "Drikkevarer", items: [
+      { name: "Cola", description: "0.5L Coca-Cola", price: 25, image: "/ocakbasi/drikkevarer/cola.jpeg.avif" },
+      { name: "Fanta", description: "0.5L Fanta Orange", price: 25, image: "/ocakbasi/drikkevarer/fanta.jpeg.avif" }
+    ]}
   ];
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -153,43 +65,44 @@ export default function OcakbasiMenu() {
 
   if (view === "categories") {
     return (
-      <div className="min-h-screen bg-white text-black">
-        <div className="flex overflow-x-auto space-x-4 p-4 border-b">
-          {categories.map((cat, idx) => (
-            <button key={idx} onClick={() => setSelectedCategory(cat)} className="text-sm font-semibold whitespace-nowrap px-4 py-2 bg-gray-100 rounded-full">
-              {cat.name}
-            </button>
-          ))}
-        </div>
+      <div className="min-h-screen bg-white text-black flex">
+        <div className="flex-1">
+          <div className="overflow-x-auto flex space-x-4 p-4 border-b">
+            {categories.map((cat, idx) => (
+              <button key={idx} onClick={() => setSelectedCategory(cat)} className="text-sm font-semibold whitespace-nowrap px-4 py-2 bg-gray-100 rounded-full">
+                {cat.name}
+              </button>
+            ))}
+          </div>
 
-        <div className="p-4 grid gap-4">
-          {(selectedCategory?.items || []).map((item, idx) => (
-            <div key={idx} className="border rounded-xl overflow-hidden shadow-sm bg-white">
-              <img src={item.image} alt={item.name} className="w-full h-40 object-cover" />
-              <div className="p-4">
-                <h2 className="text-lg font-semibold">{item.name}</h2>
-                <p className="text-sm text-gray-600">{item.description}</p>
-                <div className="mt-2 flex justify-between items-center">
-                  <span className="text-sm font-bold">{item.price},00 kr</span>
-                  <Button onClick={() => { setSelectedItem(item); setView("item"); }} className="text-sm">Vælg</Button>
+          <div className="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2">
+            {(selectedCategory?.items || []).map((item, idx) => (
+              <div key={idx} className="border rounded-xl overflow-hidden shadow-sm bg-white">
+                <img src={item.image} alt={item.name} className="w-full h-40 object-cover" />
+                <div className="p-4">
+                  <h2 className="text-lg font-semibold">{item.name}</h2>
+                  <p className="text-sm text-gray-600">{item.description}</p>
+                  <div className="mt-2 flex justify-between items-center">
+                    <span className="text-sm font-bold">{item.price},00 kr</span>
+                    <Button onClick={() => { setSelectedItem(item); setView("item"); }} className="text-sm">Vælg</Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* Kurv i højre side */}
         {cart.length > 0 && (
-          <div className="fixed right-4 bottom-4 bg-white shadow-xl rounded-xl p-4 w-72 z-50">
-            <h3 className="font-semibold mb-2">Din kurv</h3>
+          <div className="hidden lg:block w-[360px] fixed right-0 top-0 h-full bg-white shadow-xl border-l p-6 z-50 overflow-y-auto">
+            <h3 className="text-xl font-bold mb-4">Din kurv</h3>
             {cart.map((item, idx) => (
               <div key={idx} className="flex justify-between items-center text-sm mb-2">
                 <span>{item.name} x{item.quantity}</span>
                 <button onClick={() => removeFromCart(idx)}><Trash2 className="w-4 h-4 text-red-500" /></button>
               </div>
             ))}
-            <div className="mt-2 font-bold">Total: {total},00 kr</div>
-            <Button onClick={handlePlaceOrder} className="w-full mt-3 bg-black text-white py-2 rounded-full">Gå til kassen</Button>
+            <div className="mt-4 font-bold text-lg">Total: {total},00 kr</div>
+            <Button onClick={handlePlaceOrder} className="w-full mt-4 bg-black text-white py-3 rounded-full">Gå til kassen</Button>
           </div>
         )}
       </div>
@@ -198,25 +111,27 @@ export default function OcakbasiMenu() {
 
   if (view === "item") {
     return (
-      <div className="p-6 min-h-screen bg-white">
-        <button onClick={() => setView("categories")} className="mb-4 text-sm text-gray-600 flex items-center"><ChevronLeft className="w-4 h-4 mr-1" /> Tilbage</button>
-        <img src={selectedItem.image} alt={selectedItem.name} className="w-full h-64 object-cover rounded-xl mb-4" />
-        <h2 className="text-2xl font-bold mb-2">{selectedItem.name}</h2>
-        <p className="text-gray-600 mb-4">{selectedItem.description}</p>
-        <input
-          type="text"
-          placeholder="Kommentar eller allergi"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          className="w-full border px-4 py-2 rounded-xl mb-4"
-        />
-        <div className="flex items-center space-x-4 mb-6">
-          <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 py-2 border rounded-full">-</button>
-          <span>{quantity}</span>
-          <button onClick={() => setQuantity(quantity + 1)} className="px-4 py-2 border rounded-full">+</button>
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-6">
+        <div className="bg-white rounded-xl w-full max-w-md p-6">
+          <button onClick={() => setView("categories")} className="mb-4 text-sm text-gray-600 flex items-center"><ChevronLeft className="w-4 h-4 mr-1" /> Tilbage</button>
+          <img src={selectedItem.image} alt={selectedItem.name} className="w-full h-64 object-cover rounded-xl mb-4" />
+          <h2 className="text-2xl font-bold mb-2">{selectedItem.name}</h2>
+          <p className="text-gray-600 mb-4">{selectedItem.description}</p>
+          <input
+            type="text"
+            placeholder="Kommentar eller allergi"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            className="w-full border px-4 py-2 rounded-xl mb-4"
+          />
+          <div className="flex items-center space-x-4 mb-6">
+            <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 py-2 border rounded-full">-</button>
+            <span>{quantity}</span>
+            <button onClick={() => setQuantity(quantity + 1)} className="px-4 py-2 border rounded-full">+</button>
+          </div>
+          <Button onClick={addToCart} className="w-full bg-black text-white py-3 rounded-xl">Læg i kurv</Button>
+          {justAdded && <div className="text-green-500 mt-4 text-center font-medium">Tilføjet til kurv ✅</div>}
         </div>
-        <Button onClick={addToCart} className="w-full bg-black text-white py-3 rounded-xl">Læg i kurv</Button>
-        {justAdded && <div className="text-green-500 mt-4 text-center font-medium">Tilføjet til kurv ✅</div>}
       </div>
     );
   }
@@ -227,10 +142,8 @@ export default function OcakbasiMenu() {
         <h1 className="text-2xl font-bold mb-2">Tak for din bestilling!</h1>
         <p className="text-gray-700 mb-4">Dit ordrenummer er:</p>
         <div className="text-5xl font-extrabold">#{orderNumber}</div>
-        <Button onClick={() => setView("landing")} className="mt-6 bg-black text-white px-6 py-3 rounded-full">Bestil igen</Button>
+        <Button onClick={() => setView("landing")} className="mt-6 bg-black text-white px-6 py-3 rounded-full">Tilbage til forsiden</Button>
       </div>
     );
   }
-
-  return null;
 }
