@@ -27,7 +27,7 @@ export default function OcakbasiMenu() {
       items: ["Cola", "Fanta", "Vand", "Ayran"],
     },
     {
-      name: "durum",
+      name: "Durumrulle",
       items: ["Durum kebab", "Durum kylling", "Durum mix", "Durum vegetar"],
     },
     {
@@ -35,19 +35,19 @@ export default function OcakbasiMenu() {
       items: ["Hvidløg", "Chili", "Remoulade", "Ketchup"],
     },
     {
-      name: "Ocakbasi burger",
+      name: "Burger",
       items: ["Cheeseburger", "Big burger", "Kyllingeburger", "Dobbelt burger"],
     },
     {
-      name: "ocakbasi pizzaer",
+      name: "Pizza",
       items: ["Margherita", "Pepperoni", "Hawaii", "Vegetar"],
     },
     {
-      name: "Pasta ret",
+      name: "Pasta",
       items: ["Pasta kødsovs", "Pasta kylling", "Pasta vegetar", "Lasagne"],
     },
     {
-      name: "Pitabrød",
+      name: "Pita",
       items: ["Pita kebab", "Pita kylling", "Pita mix", "Pita falafel"],
     },
     {
