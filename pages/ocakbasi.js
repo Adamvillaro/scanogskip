@@ -13,7 +13,108 @@ export default function OcakbasiMenu() {
   const [orderNumber, setOrderNumber] = useState(null);
   const [diningOption, setDiningOption] = useState(null);
 
-  const categories = [...]; // keep your previous categories here
+  const categories = [
+    {
+      name: "A la carte",
+      items: [
+        {
+          name: "Mix Grill",
+          description: "Kebab, kylling, adana, ris og salat",
+          price: 139,
+          image: "/ocakbasi/a-la-carte/mix-grill.jpeg"
+        },
+        {
+          name: "Adana kebab",
+          description: "Hakket krydret kød på spyd med salat og ris",
+          price: 109,
+          image: "/ocakbasi/a-la-carte/adana-kebab.jpeg"
+        }
+      ]
+    },
+    {
+      name: "Pizza",
+      items: [
+        {
+          name: "Margherita",
+          description: "Tomat, ost",
+          price: 73,
+          image: "/ocakbasi/pizza/margherita.jpeg"
+        },
+        {
+          name: "Pepperoni",
+          description: "Pepperoni, dressing",
+          price: 83,
+          image: "/ocakbasi/pizza/pepperoni.jpeg"
+        }
+      ]
+    },
+    {
+      name: "Burger",
+      items: [
+        {
+          name: "Big burger",
+          description: "Klassisk burger med oksekød",
+          price: 49,
+          image: "/ocakbasi/burger/big-burger.jpeg"
+        }
+      ]
+    },
+    {
+      name: "Durumrulle",
+      items: [
+        {
+          name: "Kebab Durum",
+          description: "Salat, tomat, dressing",
+          price: 65,
+          image: "/ocakbasi/durumrulle/kebab-durum.jpeg"
+        }
+      ]
+    },
+    {
+      name: "Salater",
+      items: [
+        {
+          name: "Kyllingesalat",
+          description: "Frisk salat med kylling",
+          price: 65,
+          image: "/ocakbasi/salater/kyllingesalat.jpeg"
+        }
+      ]
+    },
+    {
+      name: "Tilbehør",
+      items: [
+        {
+          name: "Pommes frites",
+          description: "Sprøde fritter",
+          price: 39,
+          image: "/ocakbasi/tilbehoer/pommes.jpeg"
+        }
+      ]
+    },
+    {
+      name: "Drikkevarer",
+      items: [
+        {
+          name: "Cola 0,5L",
+          description: "Kold sodavand",
+          price: 20,
+          image: "/ocakbasi/drikkevarer/cola.jpeg"
+        }
+      ]
+    },
+    {
+      name: "Børneretter",
+      items: [
+        {
+          name: "Børnepizza",
+          description: "Lille pizza med ost og skinke",
+          price: 55,
+          image: "/ocakbasi/boerneretter/boernepizza.jpeg"
+        }
+      ]
+    }
+  ];
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -52,76 +153,81 @@ export default function OcakbasiMenu() {
 
   if (view === "categories") {
     return (
-      <div className="min-h-screen bg-white text-black flex flex-col">
-        <div className="sticky top-0 z-10 bg-white p-4 shadow-md flex gap-2 overflow-x-auto">
-          {categories.map((cat) => (
-            <button key={cat.name} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 rounded-full border ${selectedCategory?.name === cat.name ? 'bg-[#F4A766] text-black' : 'text-gray-600'}`}>{cat.name}</button>
+      <div className="min-h-screen bg-white text-black">
+        <div className="flex overflow-x-auto space-x-4 p-4 border-b">
+          {categories.map((cat, idx) => (
+            <button key={idx} onClick={() => setSelectedCategory(cat)} className="text-sm font-semibold whitespace-nowrap px-4 py-2 bg-gray-100 rounded-full">
+              {cat.name}
+            </button>
           ))}
         </div>
 
-        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {(selectedCategory?.items || []).map((item, i) => (
-            <div key={i} onClick={() => { setSelectedItem(item); setQuantity(1); setView("product"); }} className="rounded-2xl border overflow-hidden shadow-sm cursor-pointer transition hover:shadow-lg">
-              <img src={item.image} alt={item.name} className="w-full h-36 object-cover" />
+        <div className="p-4 grid gap-4">
+          {(selectedCategory?.items || []).map((item, idx) => (
+            <div key={idx} className="border rounded-xl overflow-hidden shadow-sm bg-white">
+              <img src={item.image} alt={item.name} className="w-full h-40 object-cover" />
               <div className="p-4">
-                <div className="font-bold text-lg">{item.name}</div>
-                <div className="text-sm text-gray-500">{item.description}</div>
-                <div className="mt-1 text-sm text-gray-800">{item.price},00 kr</div>
+                <h2 className="text-lg font-semibold">{item.name}</h2>
+                <p className="text-sm text-gray-600">{item.description}</p>
+                <div className="mt-2 flex justify-between items-center">
+                  <span className="text-sm font-bold">{item.price},00 kr</span>
+                  <Button onClick={() => { setSelectedItem(item); setView("item"); }} className="text-sm">Vælg</Button>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Floating Cart */}
+        {/* Kurv i højre side */}
         {cart.length > 0 && (
-          <div className="fixed bottom-0 right-0 w-full md:w-96 bg-white border-t md:border-l shadow-xl z-20 p-4">
+          <div className="fixed right-4 bottom-4 bg-white shadow-xl rounded-xl p-4 w-72 z-50">
             <h3 className="font-semibold mb-2">Din kurv</h3>
-            <ul className="space-y-2 max-h-52 overflow-y-auto">
-              {cart.map((item, i) => (
-                <li key={i} className="flex justify-between text-sm">
-                  <span>{item.quantity}x {item.name}</span>
-                  <span>{item.price * item.quantity} kr</span>
-                  <button onClick={() => removeFromCart(i)}><Trash2 className="w-4 h-4 text-red-500" /></button>
-                </li>
-              ))}
-            </ul>
-            <div className="flex justify-between mt-4 font-semibold">
-              <span>Total</span><span>{total},00 kr</span>
-            </div>
-            <Button className="w-full mt-4 bg-[#1D1E29] text-white py-3 rounded-xl" onClick={handlePlaceOrder}>Gå til betaling</Button>
+            {cart.map((item, idx) => (
+              <div key={idx} className="flex justify-between items-center text-sm mb-2">
+                <span>{item.name} x{item.quantity}</span>
+                <button onClick={() => removeFromCart(idx)}><Trash2 className="w-4 h-4 text-red-500" /></button>
+              </div>
+            ))}
+            <div className="mt-2 font-bold">Total: {total},00 kr</div>
+            <Button onClick={handlePlaceOrder} className="w-full mt-3 bg-black text-white py-2 rounded-full">Gå til kassen</Button>
           </div>
         )}
       </div>
     );
   }
 
-  if (view === "product") {
+  if (view === "item") {
     return (
-      <div className="min-h-screen bg-white text-black p-4">
-        <button onClick={() => setView("categories")} className="mb-4 text-gray-500 text-sm"><ChevronLeft className="inline w-4 h-4" /> Tilbage</button>
-        <img src={selectedItem.image} alt={selectedItem.name} className="w-full h-48 object-cover rounded-xl mb-4" />
-        <h1 className="text-2xl font-bold mb-1">{selectedItem.name}</h1>
-        <p className="text-gray-600 mb-2">{selectedItem.description}</p>
-        <p className="text-lg font-semibold mb-4">{selectedItem.price},00 kr</p>
-        <div className="flex items-center gap-4 mb-4">
-          <Button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</Button>
+      <div className="p-6 min-h-screen bg-white">
+        <button onClick={() => setView("categories")} className="mb-4 text-sm text-gray-600 flex items-center"><ChevronLeft className="w-4 h-4 mr-1" /> Tilbage</button>
+        <img src={selectedItem.image} alt={selectedItem.name} className="w-full h-64 object-cover rounded-xl mb-4" />
+        <h2 className="text-2xl font-bold mb-2">{selectedItem.name}</h2>
+        <p className="text-gray-600 mb-4">{selectedItem.description}</p>
+        <input
+          type="text"
+          placeholder="Kommentar eller allergi"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          className="w-full border px-4 py-2 rounded-xl mb-4"
+        />
+        <div className="flex items-center space-x-4 mb-6">
+          <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 py-2 border rounded-full">-</button>
           <span>{quantity}</span>
-          <Button onClick={() => setQuantity(q => q + 1)}>+</Button>
+          <button onClick={() => setQuantity(quantity + 1)} className="px-4 py-2 border rounded-full">+</button>
         </div>
-        <textarea value={note} onChange={e => setNote(e.target.value)} placeholder="Kommentar (fx uden løg)" className="w-full p-2 border rounded mb-4" />
-        <Button onClick={addToCart} className="w-full bg-[#1D1E29] text-white py-3 rounded-xl">Læg i kurv</Button>
-        {justAdded && <div className="text-green-600 mt-4 font-medium text-center">Tilføjet til kurven ✅</div>}
+        <Button onClick={addToCart} className="w-full bg-black text-white py-3 rounded-xl">Læg i kurv</Button>
+        {justAdded && <div className="text-green-500 mt-4 text-center font-medium">Tilføjet til kurv ✅</div>}
       </div>
     );
   }
 
   if (view === "confirmation") {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center text-center p-8">
-        <h1 className="text-3xl font-bold text-black mb-4">Tak for din bestilling!</h1>
-        <p className="text-lg">Dit ordrenummer er:</p>
-        <p className="text-6xl font-extrabold text-black my-4">#{orderNumber}</p>
-        <Button className="mt-6 bg-black text-white px-6 py-3 rounded-xl" onClick={() => setView("landing")}>← Til start</Button>
+      <div className="min-h-screen bg-white text-center flex flex-col justify-center items-center p-6">
+        <h1 className="text-2xl font-bold mb-2">Tak for din bestilling!</h1>
+        <p className="text-gray-700 mb-4">Dit ordrenummer er:</p>
+        <div className="text-5xl font-extrabold">#{orderNumber}</div>
+        <Button onClick={() => setView("landing")} className="mt-6 bg-black text-white px-6 py-3 rounded-full">Bestil igen</Button>
       </div>
     );
   }
