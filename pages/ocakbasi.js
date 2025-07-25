@@ -14,12 +14,43 @@ export default function OcakbasiMenu() {
   const [diningOption, setDiningOption] = useState(null);
 
   const rawCategories = [
-    { name: "A la carte", items: ["Mix grill", "Kyllingespyd", "Lammekoteletter", "Adana kebab"] },
+    {
+      name: "A la carte",
+      items: [
+        "Bagt kartoffel",
+        "Box",
+        "Bøfret",
+        "Calamaris (10 stk)",
+        "Chicken nugget (9 stk)",
+        "Falafel ret (10 stk)",
+        "Fiske fillet (2 stk)",
+        "Halv kylling",
+        "Indbagte rejer (10 stk)",
+        "Kød ret",
+        "Mix spyd (3 stk)",
+        "Rib eye black angus",
+        "Spyd (2 stk)"
+      ]
+    },
+    {
+      name: "Burger",
+      items: [
+        "Bacon burger",
+        "Bacon cheese burger",
+        "Big burger",
+        "Cheese burger",
+        "Dobbelt bacon burger",
+        "Dobbelt bacon cheese burger",
+        "Dobbelt burger",
+        "Dobbelt cheese burger",
+        "Hjemmelavet burger",
+        "Kyllinge burger"
+      ]
+    },
     { name: "Børneretter", items: ["Nuggets", "Børneburger", "Mini pizza", "Pommes frites"] },
     { name: "Drikkevarer", items: ["Cola", "Fanta", "Vand", "Ayran"] },
     { name: "Durumrulle", items: ["Durum kebab", "Durum kylling", "Durum mix", "Durum vegetar"] },
     { name: "Dyppelse", items: ["Hvidløg", "Chili", "Remoulade", "Ketchup"] },
-    { name: "Burger", items: ["Cheeseburger", "Big burger", "Kyllingeburger", "Dobbelt burger"] },
     { name: "Pizza", items: ["Margherita", "Pepperoni", "Hawaii", "Vegetar"] },
     { name: "Pasta", items: ["Pasta kødsovs", "Pasta kylling", "Pasta vegetar", "Lasagne"] },
     { name: "Pita", items: ["Pita kebab", "Pita kylling", "Pita mix", "Pita falafel"] },
@@ -42,7 +73,6 @@ export default function OcakbasiMenu() {
       .replace("durumrulle", "durum")
       .replace("a la carte", "a_la_carte");
   }
-  
 
   const categories = rawCategories.map(cat => ({
     ...cat,
