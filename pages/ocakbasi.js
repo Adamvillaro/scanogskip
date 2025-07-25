@@ -28,13 +28,22 @@ export default function OcakbasiMenu() {
     { name: "Tilbehør", items: ["Pommes frites", "Løgringe", "Mozzarella sticks", "Falafel"] }
   ];
 
+  function normalize(str) {
+    return str
+      .toLowerCase()
+      .replace(/ /g, "_")
+      .replace(/æ/g, "ae")
+      .replace(/ø/g, "oe")
+      .replace(/å/g, "aa");
+  }
+
   const categories = rawCategories.map(cat => ({
     ...cat,
     items: cat.items.map(name => ({
       name,
       description: `Lækker ${name.toLowerCase()} fra Ocakbasi`,
       price: 65 + name.length % 5 * 5,
-      image: `/ocakbasi/${cat.name.toLowerCase().replaceAll(' ', '_')}/${name.toLowerCase().replaceAll(' ', '_')}.avif`
+      image: `/ocakbasi/${normalize(cat.name)}/${normalize(name)}.avif`
     }))
   }));
 
