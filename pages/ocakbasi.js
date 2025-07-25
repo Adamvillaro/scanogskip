@@ -34,7 +34,7 @@ export default function OcakbasiMenu() {
       name,
       description: `Lækker ${name.toLowerCase()} fra Ocakbasi`,
       price: 65 + name.length % 5 * 5,
-      image: `/ocakbasi/${encodeURIComponent(cat.name)}/${encodeURIComponent(name)}.jpeg.avif`
+      image: `/ocakbasi/${cat.name.toLowerCase().replaceAll(' ', '_')}/${name.toLowerCase().replaceAll(' ', '_')}.avif`
     }))
   }));
 
