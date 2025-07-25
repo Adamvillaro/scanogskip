@@ -13,20 +13,24 @@ export default function OcakbasiMenu() {
   const [orderNumber, setOrderNumber] = useState(null);
   const [diningOption, setDiningOption] = useState(null);
 
-  const categories = [
-    { name: "Pizza", items: [
-      { name: "Pepperoni", description: "Pepperoni og ost", price: 85, image: "/ocakbasi/pizza/pepperoni.jpeg.avif" },
-      { name: "Margherita", description: "Tomat og ost", price: 75, image: "/ocakbasi/pizza/margherita.jpeg.avif" }
-    ]},
-    { name: "Burger", items: [
-      { name: "Cheeseburger", description: "Burger med ost og salat", price: 65, image: "/ocakbasi/burger/cheeseburger.jpeg.avif" },
-      { name: "Kyllingeburger", description: "Burger med kyllingefilet", price: 70, image: "/ocakbasi/burger/kyllingeburger.jpeg.avif" }
-    ]},
-    { name: "Drikkevarer", items: [
-      { name: "Cola", description: "0.5L Coca-Cola", price: 25, image: "/ocakbasi/drikkevarer/cola.jpeg.avif" },
-      { name: "Fanta", description: "0.5L Fanta Orange", price: 25, image: "/ocakbasi/drikkevarer/fanta.jpeg.avif" }
-    ]}
+  const categoryNames = [
+    "A la carte", "Børneretter", "Drikkevarer", "durum", "Dyppelse",
+    "Ocakbasi burger", "ocakbasi pizzaer", "Pasta ret", "Pitabrød",
+    "Pizzasandwich", "Salater", "Tilbehør"
   ];
+
+  const categories = categoryNames.map(name => {
+    const folder = name.toLowerCase().replace(/ /g, "");
+    return {
+      name,
+      items: Array.from({ length: 20 }, (_, i) => ({
+        name: `${name} Ret ${i + 1}`,
+        description: `Beskrivelse af ${name} Ret ${i + 1}`,
+        price: 69 + (i % 5) * 5,
+        image: `/ocakbasi/${name}/${name.toLowerCase()}${i + 1}.jpeg.avif`
+      }))
+    };
+  });
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -52,7 +56,7 @@ export default function OcakbasiMenu() {
   if (view === "landing") {
     return (
       <div className="min-h-screen bg-[#1D1E29] text-white flex flex-col items-center justify-center px-6">
-        <img src="/ockabasi-logo.png" alt="Logo" className="w-40 mb-10" />
+        <img src="/ocakbasi-logo.png" alt="Logo" className="w-40 mb-10" />
         <h1 className="text-xl mb-6">Velkommen til Ocakbasi</h1>
         <div className="w-full max-w-xs space-y-4">
           <Button onClick={() => { setDiningOption("eat-in"); setView("categories"); }} className="w-full bg-[#F4A766] text-black rounded-xl py-4 text-lg">Spis her</Button>
