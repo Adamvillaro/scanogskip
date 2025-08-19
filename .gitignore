@@ -43,3 +43,4 @@ next-env.d.ts
 git add .gitignore
 git commit -m "Ryddet op i .gitignore"
 git push
+.env*.local
