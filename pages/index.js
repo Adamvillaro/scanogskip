@@ -34,12 +34,13 @@ export default function Home() {
               Fremtidens Bestillinger
             </h1>
             <p className="text-lg leading-relaxed">
-              Vi gør det nemt for gæster at bestille og betale direkte fra telefonen – uden kø og ventetid.
-              Scan, bestil, betal – og spring ventetiden over. Butikken modtager ordren live og markerer den som færdig på iPad.
+              Hvem gider at stå i kø to gange – først for at bestille og derefter for at vente på maden?
             </p>
-            <p className="mt-4 text-base">
-              <span>Scan & Skip</span> er bygget til restauranter, barer og street food – hurtigt at
-              implementere, intuitivt at bruge.
+            <p className="text-lg leading-relaxed mt-4">
+              Med Scan &amp; Skip bestiller og betaler gæster direkte fra mobilen.
+            </p>
+            <p className="text-lg leading-relaxed mt-4">
+              Butikken får ordren ind på iPad med det samme og kan gå i gang. Det giver kortere ventetid for gæsterne og et mere effektivt flow for personalet.
             </p>
           </div>
         </section>
